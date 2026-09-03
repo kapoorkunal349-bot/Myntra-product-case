@@ -1,3 +1,3 @@
 # Myntra-product-case
-Project link1 [discovery-engine.html}
-Project link2 [wishlist-copilot.html]
+Project link1 Myntra_AI_Discovery_Engine_Demo.html
+Project link2 Myntra_Wishlist_Decision_Copilot_MVP.html

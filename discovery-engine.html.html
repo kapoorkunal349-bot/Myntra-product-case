@@ -1,0 +1,43 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Myntra AI Discovery Engine Demo</title>
+<style>
+body{font-family:Inter,Arial,sans-serif;background:#f7f7f7;color:#111;margin:0}.top{height:8px;background:#ff3f6c}
+.wrap{max-width:1200px;margin:34px auto;padding:0 24px}.brand{color:#ff3f6c;font-weight:800;letter-spacing:1px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.card{background:#fff;border:1px solid #ddd;border-radius:16px;padding:20px;box-shadow:0 4px 16px #00000008}.full{grid-column:1/-1}
+button{border:0;border-radius:999px;padding:10px 16px;margin:4px;background:#fff;border:1px solid #ddd;cursor:pointer}button.active{background:#fff0f4;color:#ff3f6c;border-color:#ff3f6c}
+.bar{height:12px;background:#eee;border-radius:99px;overflow:hidden}.fill{height:100%;background:#ff3f6c}.row{display:grid;grid-template-columns:190px 1fr 60px;gap:12px;align-items:center;margin:14px 0}
+.small{color:#666;font-size:13px}.quote{border-left:4px solid #ff3f6c;padding-left:12px;margin:12px 0;color:#333}.score{font-size:28px;font-weight:800;color:#ff3f6c}
+</style></head><body><div class="top"></div><div class="wrap">
+<div class="brand">MYNTRA • AI DISCOVERY ENGINE</div><h1>From public conversation → ranked product opportunities</h1>
+<div class="grid">
+<div class="card"><h3>1. Source</h3><div id="sources"></div></div>
+<div class="card"><h3>2. Segment</h3><div id="segments"></div></div>
+<div class="card full"><h3>3. Opportunity map</h3><div id="map"></div></div>
+<div class="card"><h3>4. Evidence</h3><div id="evidence"></div></div>
+<div class="card"><h3>5. Decision rule</h3><p><b>Opportunity score</b> = prevalence × conversion proximity × segment fit × evidence quality.</p><p class="small">The LLM proposes structured labels; the final ranking is deterministic and auditable.</p><div class="score">8.7 / 10</div></div>
+</div></div>
+<script>
+const data={
+sources:["Play Store","App Store","Reddit","YouTube","Fashion communities","Public Myntra pages"],
+segments:["High-intent deliberator","Deal-led shopper","Occasion shopper","Inspiration-led shopper"],
+themes:[
+["Fit / size confidence",88,"High"],
+["Quality / expectation gap",81,"High"],
+["Choice / alternatives",76,"High"],
+["Price timing / wait state",71,"Medium"],
+["Social proof",64,"Medium"]
+],
+quotes:{
+"Fit / size confidence":"“I check the size chart against my measurements… I hate returning items.”",
+"Quality / expectation gap":"“The heavily edited model images make it hard to know what the colour/fabric will really be like.”",
+"Choice / alternatives":"“I save several options and then compare before deciding.”",
+"Price timing / wait state":"“I wishlisted so many things to buy on sale.”",
+"Social proof":"“When there are no reviews, I second guess the product.”"
+}};
+function chips(arr,el){document.getElementById(el).innerHTML=arr.map((x,i)=>`<button onclick="select(this)">${x}</button>`).join('')}
+function select(btn){document.querySelectorAll('button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');show(btn.innerText)}
+function show(theme){const q=data.quotes[theme]||"Select a theme to inspect grounded evidence.";document.getElementById('evidence').innerHTML=`<div class="quote">${q}</div><p class="small">Source: public conversation sample used for directional discovery; not representative prevalence.</p>`}
+chips(data.sources,"sources");chips(data.segments,"segments");
+document.getElementById('map').innerHTML=data.themes.map(t=>`<div class="row"><b>${t[0]}</b><div class="bar"><div class="fill" style="width:${t[1]}%"></div></div><span>${t[2]}</span></div>`).join('');
+show("Fit / size confidence");
+</script></body></html>

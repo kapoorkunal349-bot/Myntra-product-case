@@ -1,0 +1,29 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Myntra Wishlist Decision Copilot MVP</title>
+<style>
+body{font-family:Inter,Arial,sans-serif;background:#fafafa;color:#111;margin:0}.top{height:8px;background:#ff3f6c}
+.app{max-width:900px;margin:30px auto;padding:0 18px}.head{display:flex;justify-content:space-between;align-items:center}
+.brand{font-weight:900;letter-spacing:.8px}.accent{color:#ff3f6c}.tabs button{border:0;background:none;padding:10px;cursor:pointer}
+.panel{background:#fff;border:1px solid #ddd;border-radius:18px;padding:18px;margin:14px 0}.item{display:grid;grid-template-columns:90px 1fr auto;gap:14px;align-items:center}
+.thumb{width:90px;height:110px;background:linear-gradient(135deg,#f0d9df,#ddd);border-radius:12px}.muted{color:#666;font-size:13px}
+.badge{display:inline-block;border-radius:999px;padding:6px 10px;background:#fff0f4;color:#ff3f6c;font-size:12px;font-weight:700}
+.btn{border:1px solid #ddd;border-radius:999px;padding:9px 14px;background:#fff;cursor:pointer}.primary{background:#111;color:#fff;border-color:#111}
+details{margin-top:10px}summary{cursor:pointer;color:#ff3f6c;font-weight:700}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+</style></head><body><div class="top"></div><div class="app">
+<div class="head"><div><div class="brand">MYNTRA</div><h1>Wishlist Decision Copilot</h1><div class="muted">Turn saved styles into confident decisions — no coupons, no forced urgency.</div></div><span class="badge">MVP</span></div>
+<div class="panel"><h3>My Wishlist <span class="muted">• 6 items</span></h3><div id="list"></div></div>
+<div class="panel" id="detail"><h3>Pick a saved item</h3><p class="muted">The Copilot will explain the main uncertainty and what evidence can resolve it.</p></div>
+</div>
+<script>
+const items=[
+{name:"Satin Midi Dress",conf:82,fit:"Strong",quality:"Positive",occasion:"Wedding guest",why:"Reviewers mostly report true-to-size fit; 14 reviews mention fabric/finish positively.",alt:"Compare with your 2 other occasion dresses."},
+{name:"Straight Fit Jeans",conf:61,fit:"Mixed",quality:"Positive",occasion:"Everyday",why:"Fit is the main uncertainty: several reviewers mention waist/length differences.",alt:"Your saved alternative has stronger fit evidence."},
+{name:"Minimal Sneakers",conf:74,fit:"Strong",quality:"Mixed",occasion:"Everyday",why:"Comfort is positive; sizing runs slightly narrow in some reviews.",alt:"A similar saved sneaker has more reviews but a less preferred silhouette."},
+{name:"Linen Shirt",conf:69,fit:"Strong",quality:"Mixed",occasion:"Vacation",why:"Good styling feedback; wrinkle/opacity comments are mixed.",alt:"The alternative is less sheer but more relaxed in fit."},
+{name:"Structured Tote",conf:84,fit:"Strong",quality:"Positive",occasion:"Work",why:"High confidence from material and review evidence; capacity is the main trade-off.",alt:"Your other tote is larger but less structured."},
+{name:"Party Heels",conf:58,fit:"Mixed",quality:"Mixed",occasion:"Party",why:"Comfort and sizing are uncertain; reviews are sparse.",alt:"A saved alternative has substantially stronger evidence."}
+];
+function render(){document.getElementById('list').innerHTML=items.map((x,i)=>`<div class="item" style="padding:12px 0;border-bottom:1px solid #eee"><div class="thumb"></div><div><b>${x.name}</b><div class="muted">${x.occasion} • ${x.fit} fit evidence • ${x.quality} quality evidence</div><span class="badge">${x.conf}% decision confidence</span></div><button class="btn" onclick="show(${i})">Review</button></div>`).join('')}
+function show(i){const x=items[i];document.getElementById('detail').innerHTML=`<h2>${x.name}</h2><div class="grid"><div><span class="badge">${x.conf}% confidence</span><h4>Why</h4><p>${x.why}</p></div><div><h4>Trade-off</h4><p>${x.alt}</p><h4>Context</h4><p>Best fit: ${x.occasion}</p></div></div><details open><summary>What evidence did the Copilot use?</summary><p class="muted">Product measurements + size profile + review themes + the user’s own saved alternatives. In production, each claim would link back to evidence.</p></details><p><button class="btn">Compare saved alternatives</button> <button class="btn primary">Add to cart</button></p>`}
+render();
+</script></body></html>
